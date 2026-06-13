@@ -1,0 +1,341 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Okra", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-brand-mid: var(--brand-mid);
+  --color-brand-light: var(--brand-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-dark: var(--dark);
+  --color-body: var(--body);
+  --color-muted-ink: var(--muted-ink);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-amber: var(--amber);
+  --color-blueish: var(--blueish);
+  --color-purpleish: var(--purpleish);
+}
+
+:root {
+  --radius: 0.75rem;
+  --brand: oklch(0.45 0.11 150);
+  --brand-mid: oklch(0.56 0.12 152);
+  --brand-light: oklch(0.96 0.025 150);
+  --gold: oklch(0.62 0.13 78);
+  --gold-light: oklch(0.97 0.04 92);
+  --dark: oklch(0.20 0.025 155);
+  --body: oklch(0.26 0.025 155);
+  --muted-ink: oklch(0.48 0.02 155);
+  --success: oklch(0.62 0.17 145);
+  --error: oklch(0.58 0.21 28);
+  --amber: oklch(0.68 0.16 60);
+  --blueish: oklch(0.42 0.15 265);
+  --purpleish: oklch(0.45 0.18 295);
+  --background: oklch(0.985 0.005 150);
+  --foreground: oklch(0.26 0.025 155);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.26 0.025 155);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.26 0.025 155);
+  --primary: var(--brand);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: var(--brand-light);
+  --secondary-foreground: var(--brand);
+  --muted: oklch(0.96 0.01 150);
+  --muted-foreground: var(--muted-ink);
+  --accent: var(--gold-light);
+  --accent-foreground: var(--gold);
+  --destructive: var(--error);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.91 0.012 150);
+  --input: oklch(0.91 0.012 150);
+  --ring: var(--brand);
+}
+
+.dark {
+  --background: oklch(0.20 0.025 155);
+  --foreground: oklch(0.97 0.005 150);
+  --card: oklch(0.24 0.025 155);
+  --card-foreground: oklch(0.97 0.005 150);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  html, body { font-family: var(--font-sans); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
+  h1, h2, h3, h4 { color: var(--color-dark); letter-spacing: -0.01em; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+  .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .tap { transition: transform 0.15s cubic-bezier(.22,1,.36,1); }
+  .tap:active { transform: scale(0.97); }
+}
+
+/* ── Checkmark / success ─────────────────────────────── */
+@keyframes checkmark-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.animate-checkmark { animation: checkmark-pop 0.6s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 45%, transparent); }
+  70%  { box-shadow: 0 0 0 16px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.pulse-ring { animation: pulse-ring 2s infinite; }
+
+/* ── Entrances ───────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up   { animation: fadeUp 0.55s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-1 { animation: fadeUp 0.55s 0.08s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-2 { animation: fadeUp 0.55s 0.16s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-3 { animation: fadeUp 0.55s 0.24s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-4 { animation: fadeUp 0.55s 0.32s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up-5 { animation: fadeUp 0.55s 0.40s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade-in { animation: fadeIn 0.4s ease both; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.card-enter-1  { animation: cardIn 0.45s 0.05s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-2  { animation: cardIn 0.45s 0.10s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-3  { animation: cardIn 0.45s 0.15s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-4  { animation: cardIn 0.45s 0.20s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-5  { animation: cardIn 0.45s 0.25s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-6  { animation: cardIn 0.45s 0.30s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-7  { animation: cardIn 0.45s 0.35s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-8  { animation: cardIn 0.45s 0.40s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-9  { animation: cardIn 0.45s 0.45s cubic-bezier(.22,1,.36,1) both; }
+.card-enter-10 { animation: cardIn 0.45s 0.50s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slideUp 0.35s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes badgePop {
+  0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); }
+}
+.animate-badge-pop { animation: badgePop 0.3s cubic-bezier(.22,1,.36,1); }
+
+/* ── Zomato-style hero: Ken Burns crossfade ─────────── */
+@keyframes kenburns {
+  from { transform: scale(1.02) translateY(0); }
+  to   { transform: scale(1.1) translateY(-1.5%); }
+}
+.kenburns { animation: kenburns 14s ease-in-out infinite alternate; will-change: transform; }
+
+/* ── Scroll reveal (IntersectionObserver adds .is-visible) */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .kenburns { animation: none; }
+  .animate-fade-up, .animate-fade-up-1, .animate-fade-up-2, .animate-fade-up-3,
+  .animate-fade-up-4, .animate-fade-up-5 { animation-duration: 0.01s; animation-delay: 0s; }
+}
+
+/* ── Image shimmer skeleton ──────────────────────────── */
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+.img-shimmer {
+  background: linear-gradient(110deg,
+    oklch(0.95 0.01 150) 30%,
+    oklch(0.985 0.005 150) 45%,
+    oklch(0.95 0.01 150) 60%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* ── Live ticker pill ────────────────────────────────── */
+@keyframes tickIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tick-in { animation: tickIn 0.35s cubic-bezier(.22,1,.36,1) both; }
+
+/* ── Scroll cue chevron ──────────────────────────────── */
+@keyframes cueBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+.cue-bounce { animation: cueBounce 1.8s ease-in-out infinite; }
+
+/* ── Mobile slide-in menu ────────────────────────────── */
+.menu-panel {
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+}
+.menu-panel.open { transform: translateX(0); }
+
+/* ── Confetti burst ──────────────────────────────────── */
+@keyframes confettiFall {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--cx), var(--cy)) rotate(var(--cr)); opacity: 0; }
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px; height: 12px;
+  border-radius: 2px;
+  animation: confettiFall 1.5s cubic-bezier(.15,.6,.4,1) var(--cd) both;
+  pointer-events: none;
+}
+
+/* ── Geo-layer connectors (landing) ──────────────────── */
+.geo-step { position: relative; padding-left: 1.5rem; }
+.geo-step::before {
+  content: '';
+  position: absolute;
+  left: 0.35rem; top: 1.4rem; bottom: -0.6rem;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-brand-mid), transparent);
+}
+.geo-step:last-child::before { display: none; }
+
+/* ── Hero gradient (fallback layer under photos) ─────── */
+.hero-gradient {
+  background: linear-gradient(135deg,
+    oklch(0.20 0.025 155) 0%,
+    oklch(0.28 0.06 152) 45%,
+    oklch(0.35 0.08 148) 100%);
+}
+
+
+/* ── Order-tracker timeline animated sweep ───────────── */
+@keyframes timelineSweep {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(0); }
+}
+.timeline-sweep {
+  background: linear-gradient(to bottom, var(--color-brand), color-mix(in oklab, var(--color-brand) 25%, transparent));
+  animation: timelineSweep 1.4s ease-in-out infinite;
+}
+
+/* ── Sticky hero stacking (Zomato-style layered scroll) ── */
+.hero-sticky { position: sticky; top: 0; z-index: 0; }
+.content-over { position: relative; z-index: 10; }
+
+/* ── Auth modal inputs ───────────────────────────────── */
+.auth-input {
+  width: 100%; height: 3rem; padding: 0 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  font-size: 15px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.auth-input:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 20%, transparent);
+}
+
+/* ── Layered scroll: hero darkens as it leaves view (mobile) ── */
+.hero-dim {
+  position: absolute; inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s linear;
+  z-index: 5;
+}
+
+
+/* ── Typography scale (Zomato-inspired, Okra stack) ─────── */
+.font-display { font-family: var(--font-sans); }
+.h-hero {
+  font-size: clamp(2.25rem, 6vw, 3rem);   /* 36 → 48px */
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+.h-section {
+  font-size: clamp(1.625rem, 4vw, 2rem);  /* 26 → 32px */
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 800;
+}
+.h-card {
+  font-size: 1.125rem;                     /* 18px (→20 via md) */
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+@media (min-width: 768px) { .h-card { font-size: 1.25rem; } }
+.t-body {
+  font-size: 0.9375rem;                    /* 15px */
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+@media (min-width: 768px) { .t-body { font-size: 1rem; } }
+.t-micro {
+  font-size: 0.6875rem;                    /* 11px (→12 via md) */
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+@media (min-width: 768px) { .t-micro { font-size: 0.75rem; } }
