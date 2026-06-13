@@ -1,0 +1,148 @@
+{
+  "zones": [
+    {
+      "id": "new-auditorium-shimawa",
+      "label": "New Auditorium (Shimawa)",
+      "areas": [
+        { "id": "wing-a", "label": "Wing A", "pickupPoints": ["Main Entrance", "Side Gate A", "Ushers Station"] },
+        { "id": "wing-b", "label": "Wing B", "pickupPoints": ["Wing B Entrance", "Media Corner", "Overflow Section"] },
+        { "id": "wing-c", "label": "Wing C", "pickupPoints": ["Wing C Entrance", "Choir Stand Side", "Rear Exit"] },
+        { "id": "centre-aisle", "label": "Centre Aisle", "pickupPoints": ["Front Centre", "Mid Centre", "Back Centre"] },
+        { "id": "gallery", "label": "Gallery Level", "pickupPoints": ["Gallery Stairs", "Gallery Left", "Gallery Right"] }
+      ]
+    },
+    {
+      "id": "old-auditorium",
+      "label": "Old Auditorium",
+      "areas": [
+        { "id": "perimeter-1", "label": "Perimeter 1 (North)", "pickupPoints": ["North Gate Main", "Side Entry A", "Press Area"] },
+        { "id": "perimeter-2", "label": "Perimeter 2 (South)", "pickupPoints": ["South Gate", "Refreshment Point", "Side Exit B"] },
+        { "id": "perimeter-3", "label": "Perimeter 3 (East)", "pickupPoints": ["East Entrance", "Row 1-50 Gate", "VIP Entrance"] },
+        { "id": "perimeter-4", "label": "Perimeter 4 (West)", "pickupPoints": ["West Gate", "Wheelchair Access", "Staff Entrance"] },
+        { "id": "back-entrance", "label": "Back Entrance", "pickupPoints": ["Rear Gate", "Loading Bay", "Staff Car Park"] }
+      ]
+    },
+    {
+      "id": "the-pavilion",
+      "label": "The Pavilion",
+      "areas": [
+        { "id": "north-stand", "label": "North Stand", "pickupPoints": ["North Entrance", "Concession A", "Stair Block 1"] },
+        { "id": "south-stand", "label": "South Stand", "pickupPoints": ["South Entrance", "Concession B", "Stair Block 2"] },
+        { "id": "main-floor", "label": "Main Floor", "pickupPoints": ["Floor Entrance", "Stage Left", "Stage Right"] },
+        { "id": "vip-section", "label": "VIP Section", "pickupPoints": ["VIP Lounge", "VIP Reception"] }
+      ]
+    },
+    {
+      "id": "prayer-city",
+      "label": "Prayer City",
+      "areas": [
+        { "id": "block-1", "label": "Block 1", "pickupPoints": ["Block 1 Gate", "Prayer Hall A", "Reception"] },
+        { "id": "block-2", "label": "Block 2", "pickupPoints": ["Block 2 Gate", "Prayer Hall B", "Water Point"] },
+        { "id": "prayer-hall", "label": "Main Prayer Hall", "pickupPoints": ["Hall Entrance", "Side Entrance"] }
+      ]
+    },
+    {
+      "id": "tree-of-life",
+      "label": "Tree of Life",
+      "areas": [
+        { "id": "east-side", "label": "East Side", "pickupPoints": ["East Walkway", "Near Fountain", "Bench Area"] },
+        { "id": "west-side", "label": "West Side", "pickupPoints": ["West Walkway", "Shade Garden", "Exit Path"] }
+      ]
+    },
+    {
+      "id": "mission-house",
+      "label": "Mission House",
+      "areas": [
+        { "id": "main-reception", "label": "Main Reception", "pickupPoints": ["Front Desk", "Lobby", "Waiting Area"] },
+        { "id": "side-wing", "label": "Side Wing", "pickupPoints": ["Side Entrance", "Chapel Area", "Back Offices"] }
+      ]
+    },
+    {
+      "id": "canaan-land",
+      "label": "Canaan Land",
+      "areas": [
+        { "id": "block-a", "label": "Block A", "pickupPoints": ["Block A Gate", "Courtyard", "Reception"] },
+        { "id": "block-b", "label": "Block B", "pickupPoints": ["Block B Gate", "Community Hall"] },
+        { "id": "community-centre", "label": "Community Centre", "pickupPoints": ["Centre Entrance", "Side Hall"] }
+      ]
+    },
+    {
+      "id": "youth-centre",
+      "label": "Youth Centre",
+      "areas": [
+        { "id": "main-building", "label": "Main Building", "pickupPoints": ["Front Desk", "Left Wing Entrance", "Right Wing Entrance"] },
+        { "id": "annex-block", "label": "Annex Block", "pickupPoints": ["Annex Main Door", "Side Corridor", "Garden Entrance"] },
+        { "id": "court-area", "label": "Basketball Court Area", "pickupPoints": ["Court Gate", "Bench Area", "Changing Room Side"] },
+        { "id": "back-gate", "label": "Back Gate", "pickupPoints": ["Back Gate Post", "Rear Fence Corner"] }
+      ]
+    },
+    {
+      "id": "emmanuel-park",
+      "label": "Emmanuel Park",
+      "areas": [
+        { "id": "main-entrance", "label": "Main Entrance", "pickupPoints": ["Gate Arch", "Ticket Booth", "Info Stand"] },
+        { "id": "play-area", "label": "Play Area", "pickupPoints": ["Playground", "Snack Corner", "Seating Zone"] }
+      ]
+    },
+    {
+      "id": "2000-chalets",
+      "label": "2000 Chalets",
+      "areas": [
+        { "id": "block-1-500", "label": "Block 1-500", "pickupPoints": ["Block 1 Entrance", "Block 250 Junction", "Block 500 Gate", "Central Water Point"] },
+        { "id": "block-501-1000", "label": "Block 501-1000", "pickupPoints": ["Block Entrance", "Mid-Block Junction", "Water Point", "Car Park Side"] },
+        { "id": "block-1001-1500", "label": "Block 1001-1500", "pickupPoints": ["Block 1001 Gate", "Block 1250 Junction", "Reception Area"] },
+        { "id": "block-1501-2000", "label": "Block 1501-2000", "pickupPoints": ["Far End Gate", "Block 1750 Area", "Final Block Exit"] }
+      ]
+    },
+    {
+      "id": "estate-12",
+      "label": "Estate 12",
+      "areas": [
+        { "id": "phase-1", "label": "Phase 1", "pickupPoints": ["Phase 1 Gate", "Central Road", "Corner Shop"] },
+        { "id": "phase-2", "label": "Phase 2", "pickupPoints": ["Phase 2 Gate", "Community Hall", "Water Point"] }
+      ]
+    },
+    {
+      "id": "estate-13",
+      "label": "Estate 13",
+      "areas": [
+        { "id": "phase-1", "label": "Phase 1", "pickupPoints": ["Phase 1 Gate", "Main Road", "Corner Stop"] },
+        { "id": "phase-2", "label": "Phase 2", "pickupPoints": ["Phase 2 Gate", "Junction"] },
+        { "id": "phase-3", "label": "Phase 3", "pickupPoints": ["Phase 3 Gate", "Far Block"] }
+      ]
+    },
+    {
+      "id": "rehoboth-house",
+      "label": "Rehoboth House",
+      "areas": [
+        { "id": "ground-floor", "label": "Ground Floor", "pickupPoints": ["Main Reception", "Lobby", "Side Wing"] },
+        { "id": "first-floor", "label": "First Floor", "pickupPoints": ["Stair Landing", "Conference Room"] }
+      ]
+    },
+    {
+      "id": "redemption-camp-hq",
+      "label": "Redemption Camp HQ",
+      "areas": [
+        { "id": "main-reception", "label": "Main Reception", "pickupPoints": ["Front Desk", "Visitor Lobby"] },
+        { "id": "admin-block", "label": "Admin Block", "pickupPoints": ["Admin Entrance", "Conference Room", "Car Park"] }
+      ]
+    },
+    {
+      "id": "main-gate",
+      "label": "Main Gate",
+      "areas": [
+        { "id": "inbound", "label": "Inbound Lane", "pickupPoints": ["Security Post", "Welcome Arch", "Waiting Bay"] },
+        { "id": "outbound", "label": "Outbound Lane", "pickupPoints": ["Exit Post", "Taxi Park"] }
+      ]
+    },
+    {
+      "id": "rectem",
+      "label": "RECTEM",
+      "areas": [
+        { "id": "studio-block", "label": "Main Studio Block", "pickupPoints": ["Studio Lobby", "Reception Desk", "Ground Floor Side"] },
+        { "id": "media-hall", "label": "Media Hall", "pickupPoints": ["Hall Main Entrance", "Backstage Door", "Equipment Bay"] },
+        { "id": "it-centre", "label": "IT Centre", "pickupPoints": ["Lab Entrance", "Server Room Corridor", "Help Desk"] }
+      ]
+    }
+  ]
+}

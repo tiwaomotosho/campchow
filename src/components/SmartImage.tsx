@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 /**
  * Three-tier image with graceful degradation:
  *   1. primary src  →  2. fallbackSrc  →  3. branded gradient + initials
+ * Simple + reliable: no ref-phase state writes, no opacity gating that can
+ * strand an image at opacity-0. The <img> is always visible; the shimmer
+ * sits behind it and is covered once the image paints.
  */
 const PALETTES = [
   ["oklch(0.45 0.11 150)", "oklch(0.30 0.07 152)"],
@@ -33,52 +36,32 @@ export function SmartImage({
   eager?: boolean;
 }) {
   const [tier, setTier] = useState<Tier>("primary");
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  // reset to primary whenever the source changes
+  useEffect(() => { setTier("primary"); }, [src, fallbackSrc]);
+
+  const activeSrc = tier === "primary" ? src : tier === "fallback" ? fallbackSrc : undefined;
   const name = seed ?? alt;
   const [c1, c2] = PALETTES[hash(name) % PALETTES.length];
 
-  // reset only when the actual source changes
-  useEffect(() => {
-    setTier("primary");
-    setLoaded(false);
-  }, [src]);
-
-  const activeSrc = tier === "primary" ? src : tier === "fallback" ? fallbackSrc : undefined;
-
   const onError = () => {
-    setLoaded(false);
     setTier((t) => (t === "primary" && fallbackSrc ? "fallback" : "gradient"));
   };
 
-  // catch images that were already cached before React attached onLoad
-  const attachRef = (el: HTMLImageElement | null) => {
-    imgRef.current = el;
-    if (el && el.complete && el.naturalWidth > 0 && !loaded) {
-      setLoaded(true);
-    }
-  };
-
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      {tier !== "gradient" && !loaded && <div className="absolute inset-0 img-shimmer" />}
-
-      {tier === "gradient" && (
+    <div className={`relative overflow-hidden bg-muted ${className}`}>
+      {tier === "gradient" ? (
         <div className="absolute inset-0 grid place-items-center" style={{ background: `linear-gradient(135deg, ${c1}, ${c2})` }}>
           <span className="text-white/90 font-extrabold text-3xl tracking-wide select-none">{initials(name)}</span>
         </div>
-      )}
-
-      {tier !== "gradient" && activeSrc && (
+      ) : (
         <img
           key={activeSrc}
-          ref={attachRef}
           src={activeSrc}
           alt={alt}
           loading={eager ? "eager" : "lazy"}
-          onLoad={() => setLoaded(true)}
           onError={onError}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"} ${imgClassName}`}
+          className={`absolute inset-0 w-full h-full object-cover ${imgClassName}`}
         />
       )}
     </div>

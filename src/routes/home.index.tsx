@@ -34,6 +34,7 @@ function VendorCard({ v, index }: { v: Vendor; index: number }) {
       <div className="relative h-40 bg-muted overflow-hidden">
         <SmartImage
           src={v.cover}
+          fallbackSrc={v.coverFallback}
           alt={v.name}
           seed={v.name}
           className="absolute inset-0"

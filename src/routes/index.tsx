@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ShoppingCart, Store, Bike, ArrowRight, MapPin, Search,
-  ChevronDown, Shield, Zap, Smartphone, MessageSquare, WifiOff, Star,
+  ChevronDown, Shield, Zap, Smartphone, MessageSquare, WifiOff, Wifi, Star,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
@@ -23,13 +23,13 @@ export const Route = createFileRoute("/")({
 /* ─────────────────────────────────────────────────────────
    HERO — crossfading food photography with Ken Burns drift
 ──────────────────────────────────────────────────────────── */
-const img = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=1800&q=75`;
+const img = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=1600&q=75`;
 const HERO_ZONES = ["Youth Centre", "2000 Chalets", "RECTEM", "Emmanuel Park", "Estate 12"];
 const HERO_IMAGES = [
-  img("photo-1604908176997-125f25cc6f3d"), // jollof platter
-  img("photo-1555939594-58d7cb561ad1"),    // open-flame grill
-  img("photo-1547592180-85f173990554"),    // rich soup
-  img("photo-1517248135467-4c7edcad34c4"), // warm dining
+  img("photo-1604908176997-125f25cc6f3d"),
+  img("photo-1555939594-58d7cb561ad1"),
+  img("photo-1547592180-85f173990554"),
+  img("photo-1517248135467-4c7edcad34c4"),
 ];
 
 function HeroBackdrop({ active }: { active: number }) {
@@ -276,6 +276,114 @@ function RoleCards() {
 }
 
 /* ── Resilience / app banner ────────────────────────────── */
+function SignalBars({ level }: { level: number }) {
+  // level 0..3
+  return (
+    <span className="inline-flex items-end gap-0.5 h-3">
+      {[1, 2, 3].map((b) => (
+        <span key={b} className={`w-1 rounded-sm transition-colors duration-500 ${b <= level ? "bg-current" : "bg-current/25"}`} style={{ height: `${b * 4}px` }} />
+      ))}
+    </span>
+  );
+}
+
+function AnimatedPhone() {
+  // 0 = Full PWA, 1 = Weak signal (queued), 2 = USSD zero-data
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setState((s) => (s + 1) % 3), 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  const statusBar = (
+    <div className="flex items-center justify-between mb-2.5 text-dark">
+      <span className="text-[9px] font-bold">9:41</span>
+      <span className={`inline-flex items-center gap-1 transition-colors duration-500 ${state === 0 ? "text-success" : state === 1 ? "text-amber" : "text-error"}`}>
+        {state === 2 ? <span className="text-[8px] font-bold">2G</span> : <SignalBars level={state === 0 ? 3 : 1} />}
+        {state === 0 ? <Wifi size={10} /> : <WifiOff size={10} />}
+      </span>
+    </div>
+  );
+
+  return (
+    <div className="mx-auto">
+      <div className="w-56 rounded-[2.4rem] border-[8px] border-dark bg-background p-3 shadow-2xl relative overflow-hidden">
+        <div className="h-1 w-14 mx-auto rounded-full bg-dark/20 mb-2.5" />
+        {statusBar}
+
+        {/* STATE 0 — Full PWA */}
+        {state === 0 && (
+          <div className="animate-fade-in">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="grid place-items-center h-6 w-6 rounded-lg bg-brand text-white"><ShoppingCart size={13} /></span>
+              <span className="font-extrabold text-xs"><span className="text-brand">Camp</span><span className="text-gold">Chow</span></span>
+              <span className="ml-auto text-[8px] font-bold text-success bg-success/15 px-1.5 py-0.5 rounded-full">Online</span>
+            </div>
+            <div className="grid grid-cols-2 gap-1.5">
+              {[0,1,2,3].map((i) => (
+                <div key={i} className={`rounded-lg overflow-hidden card-enter-${i+1}`}>
+                  <div className="h-10" style={{ background: ["linear-gradient(135deg,#E8821E,#B5471F)","linear-gradient(135deg,#C0392B,#6E2516)","linear-gradient(135deg,#1A6B3C,#0D3B20)","linear-gradient(135deg,#C98A3A,#7A4E1E)"][i] }} />
+                  <div className="bg-card border border-t-0 border-border rounded-b-lg px-1.5 py-1">
+                    <div className="h-1.5 w-3/4 rounded bg-dark/15" />
+                    <div className="mt-1 h-1 w-1/2 rounded bg-dark/10" />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 rounded-lg bg-brand text-white text-center text-[10px] font-bold py-1.5">Browse Vendors</div>
+          </div>
+        )}
+
+        {/* STATE 1 — Weak signal, order queued offline */}
+        {state === 1 && (
+          <div className="animate-fade-in">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="grid place-items-center h-6 w-6 rounded-lg bg-brand text-white"><ShoppingCart size={13} /></span>
+              <span className="font-extrabold text-xs"><span className="text-brand">Camp</span><span className="text-gold">Chow</span></span>
+              <span className="ml-auto text-[8px] font-bold text-amber bg-amber/15 px-1.5 py-0.5 rounded-full">Weak signal</span>
+            </div>
+            <div className="rounded-xl bg-amber/10 border border-amber/30 p-2.5 mb-2">
+              <div className="flex items-center gap-1.5 text-amber"><WifiOff size={12} /><span className="text-[10px] font-bold">Network unstable</span></div>
+              <p className="text-[9px] text-muted-foreground mt-1 leading-snug">Your order is safe. It's queued on your phone and will send automatically.</p>
+            </div>
+            <div className="rounded-xl bg-card border border-border p-2.5 flex items-center gap-2">
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute h-full w-full rounded-full bg-amber opacity-75" /><span className="relative rounded-full h-2 w-2 bg-amber" /></span>
+              <span className="text-[10px] font-semibold text-dark">1 order queued · syncing…</span>
+            </div>
+            <div className="mt-2 rounded-lg bg-dark text-white text-center text-[10px] font-bold py-1.5">Order saved offline</div>
+          </div>
+        )}
+
+        {/* STATE 2 — USSD zero-data */}
+        {state === 2 && (
+          <div className="animate-fade-in">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="grid place-items-center h-6 w-6 rounded-lg bg-error text-white"><WifiOff size={13} /></span>
+              <span className="font-extrabold text-xs text-dark">Zero-Data Mode</span>
+            </div>
+            <div className="rounded-xl bg-dark text-white p-3 font-mono">
+              <p className="text-[10px] text-white/60">USSD · no internet needed</p>
+              <p className="text-sm font-bold mt-1">*737*1*2000#</p>
+              <div className="my-2 h-px bg-white/15" />
+              <p className="text-[9px] leading-relaxed text-white/80">CampChow: Order CC-7F3A confirmed. Rider Emmanuel assigned. Reply 1 to track.</p>
+            </div>
+            <div className="mt-2 flex items-center gap-1.5 text-[9px] text-success font-semibold">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" /> Works on bare 2G signal · ₦0 data
+            </div>
+          </div>
+        )}
+
+        {/* progress dots */}
+        <div className="flex justify-center gap-1.5 mt-3">
+          {[0,1,2].map((i) => (
+            <span key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === state ? "w-5 bg-brand" : "w-1.5 bg-dark/20"}`} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ResilienceBanner() {
   const feats = [
     { icon: WifiOff,       title: "Offline-first app", sub: "Orders queue on your phone and sync when signal returns" },
@@ -284,28 +392,7 @@ function ResilienceBanner() {
   ];
   return (
     <div className="bg-card border border-border rounded-3xl p-7 md:p-10 grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-center shadow-sm">
-      {/* CSS phone mock */}
-      <div className="mx-auto">
-        <div className="w-52 rounded-[2.2rem] border-[7px] border-dark bg-background p-3 shadow-2xl">
-          <div className="h-1 w-14 mx-auto rounded-full bg-dark/20 mb-3" />
-          <div className="flex items-center gap-1.5 mb-3">
-            <span className="grid place-items-center h-6 w-6 rounded-lg bg-brand text-white"><ShoppingCart size={13} /></span>
-            <span className="font-extrabold text-xs"><span className="text-brand">Camp</span><span className="text-gold">Chow</span></span>
-          </div>
-          <div className="rounded-xl bg-brand-light px-3 py-2 mb-2 flex items-center gap-1.5">
-            <MapPin size={11} className="text-brand shrink-0" />
-            <span className="text-[10px] font-bold text-brand truncate">2000 Chalets › Block Entrance</span>
-          </div>
-          <div className="rounded-xl overflow-hidden mb-2">
-            <div className="h-16" style={{ background: "linear-gradient(135deg, oklch(0.45 0.11 150), oklch(0.62 0.13 78))" }} />
-            <div className="bg-card border border-border border-t-0 rounded-b-xl px-2.5 py-2">
-              <p className="text-[10px] font-bold text-dark">Mama Titi's Kitchen</p>
-              <p className="text-[9px] text-muted-foreground flex items-center gap-1"><Star size={8} className="fill-gold text-gold" /> 4.8 · 20–30 min</p>
-            </div>
-          </div>
-          <div className="rounded-xl bg-brand text-white text-center text-[10px] font-bold py-2">Track Order</div>
-        </div>
-      </div>
+      <AnimatedPhone />
       <div>
         <p className="text-brand text-xs font-bold uppercase tracking-[0.2em]">Built for peak congestion</p>
         <h2 className="mt-2 text-2xl md:text-3xl font-extrabold text-dark leading-tight">
