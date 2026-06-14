@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Minus, Plus, X, ShoppingBag, Check, AlertCircle, ArrowLeft } from "lucide-react";
 import { TopNav } from "@/components/TopNav";
+import { SmartImage } from "@/components/SmartImage";
 import { useCart } from "@/lib/cart-context";
 import { naira } from "@/lib/format";
 
@@ -51,7 +52,7 @@ function Cart() {
             <div className="mt-4 bg-card rounded-2xl border border-border divide-y divide-border">
               {items.map((it) => (
                 <div key={it.id} className="flex items-center gap-3 p-4">
-                  <img src={it.image} alt={it.name} className="h-16 w-16 rounded-xl object-cover bg-muted" />
+                  <SmartImage src={it.image} fallbackSrc={it.imageFallback} alt={it.name} seed={it.name} className="h-16 w-16 rounded-xl shrink-0" />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-dark truncate">{it.name}</h4>
                     <p className="text-sm text-muted-foreground">{naira(it.price)}</p>

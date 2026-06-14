@@ -37,6 +37,8 @@ function HeroBackdrop({ active }: { active: number }) {
         {HERO_IMAGES.map((src, i) => (
           <img
             key={i}
+            // Catch a pre-hydration load failure the onError handler would miss.
+            ref={(node) => { if (node && node.complete && node.naturalWidth === 0) node.style.display = "none"; }}
             src={src}
             alt=""
             aria-hidden
