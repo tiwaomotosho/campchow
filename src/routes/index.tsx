@@ -13,7 +13,7 @@ import { useAuth } from "@/lib/auth-context";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CampChow — Food. Delivered Anywhere on the Camp." },
+      { title: "CampChow | Food Delivered Anywhere on the Camp" },
       { name: "description", content: "The three-sided food ordering and last-mile delivery platform built exclusively for Redemption City." },
     ],
   }),
@@ -187,7 +187,7 @@ function GeoShowcase() {
             No street addresses?<br />No problem.
           </h2>
           <p className="mt-4 text-white/60 text-sm md:text-base leading-relaxed max-w-md">
-            Redemption City navigates by landmark — so we built delivery around the camp's own
+            Redemption City navigates by landmark, so we built delivery around the camp's own
             language. Pick your location, area, and pickup point. Your rider knows exactly where that is.
           </p>
           <Link to="/home" className="tap mt-6 inline-flex items-center gap-2 px-6 h-12 rounded-full bg-gold text-dark font-bold hover:brightness-105 transition">
@@ -477,7 +477,7 @@ function Landing() {
             </h1>
             <p className="mt-5 text-white/70 text-lg md:text-xl max-w-2xl mx-auto animate-fade-up-2" style={{lineHeight:1.5}}>
               {isLoggedIn && user
-                ? `Welcome back, ${user.name.split(" ")[0]} — your favourite vendors are ready.`
+                ? `Welcome back, ${user.name.split(" ")[0]}! Your favourite vendors are ready.`
                 : "Over a million people attend programmes here with no way to order food to their seat. Until now."}
             </p>
 
@@ -561,7 +561,7 @@ function Landing() {
         <section className="pt-14 md:pt-20">
           <Reveal>
             <h2 className="h-section text-dark text-center">Grow with CampChow</h2>
-            <p className="mt-1 text-muted-foreground text-sm md:text-base text-center">Whether you cook or deliver — there's a place for you.</p>
+            <p className="mt-1 text-muted-foreground text-sm md:text-base text-center">Whether you cook or deliver, there's a place for you.</p>
           </Reveal>
           <div className="mt-7 grid md:grid-cols-2 gap-4">
             <Reveal delay={1}>

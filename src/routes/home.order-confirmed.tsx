@@ -315,7 +315,7 @@ function Confirmed() {
             <div className="min-w-0">
               <p className={`font-bold ${phase >= 6 ? "text-white" : "text-dark"}`}>{MILESTONES[PHASE_TO_MILESTONE[phase]].label}</p>
               <p className={`text-sm ${phase >= 6 ? "text-white/75" : "text-muted-foreground"}`}>
-                {phase >= 6 ? "Mama Titi's Kitchen → 2000 Chalets · Block Entrance · ~1.4 km"
+                {phase >= 6 ? "Mama Titi's Kitchen to 2000 Chalets, Block Entrance, about 1.4 km"
                   : MILESTONES[PHASE_TO_MILESTONE[phase]].sub}
               </p>
             </div>
@@ -346,11 +346,17 @@ function Confirmed() {
           </p>
         </div>
 
-        {/* CTA */}
-        <button onClick={() => navigate({ to: "/home" })}
-          className="tap w-full h-12 rounded-xl bg-brand text-white font-bold hover:bg-brand-mid transition">
-          Order Again
-        </button>
+        {/* CTAs */}
+        <div className="grid grid-cols-2 gap-3">
+          <button onClick={() => navigate({ to: "/" })}
+            className="tap h-12 rounded-xl border border-border bg-card text-body font-bold hover:bg-muted transition">
+            Back to Home
+          </button>
+          <button onClick={() => navigate({ to: "/home" })}
+            className="tap h-12 rounded-xl bg-brand text-white font-bold hover:bg-brand-mid transition">
+            Order Again
+          </button>
+        </div>
       </main>
     </div>
   );

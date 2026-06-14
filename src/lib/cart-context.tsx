@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useAuth } from "./auth-context";
 import { MAMA_TITI_MENU, type MenuItem } from "./data";
 
 export type CartLine = {
@@ -33,7 +34,7 @@ const seedFromMenu = (id: string) => {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLine[]>(() => {
-    // Pre-populate per spec
+    // Pre-populate guest demo cart
     const seed: CartLine[] = [];
     const r1 = seedFromMenu("mt-r1");
     const s3 = seedFromMenu("mt-s3");
@@ -41,6 +42,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (s3) seed.push({ id: s3.id, name: s3.name, price: s3.price, image: s3.image, imageFallback: s3.imageFallback, qty: 1, vendorId: "mama-titi" });
     return seed;
   });
+
+  const { pendingItem, pendingVendorId, clearPending, isLoggedIn } = useAuth();
 
   // hydrate from sessionStorage
   useEffect(() => {
@@ -54,6 +57,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
     sessionStorage.setItem("cc-cart", JSON.stringify(items));
   }, [items]);
+
+  // When user signs in: clear the demo cart and add the item that triggered sign-in
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    setItems((prev) => {
+      // If there's a pending item queued before login, start fresh with just that item
+      if (pendingItem) {
+        const newLine: CartLine = {
+          id: pendingItem.id, name: pendingItem.name, price: pendingItem.price,
+          image: pendingItem.image, imageFallback: pendingItem.imageFallback,
+          qty: 1, vendorId: pendingVendorId ?? "",
+        };
+        clearPending();
+        return [newLine];
+      }
+      // No pending item — just clear the demo seed if it's still the default
+      const isDefaultSeed =
+        prev.length === 2 &&
+        prev[0].id === "mt-r1" && prev[0].qty === 2 &&
+        prev[1].id === "mt-s3" && prev[1].qty === 1;
+      return isDefaultSeed ? [] : prev;
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
   const add = (item: MenuItem, vendorId: string) => {
     setItems((prev) => {

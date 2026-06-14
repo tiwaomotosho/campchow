@@ -84,7 +84,7 @@ function Cart() {
                 </button>
               </div>
               {promoState === "valid" && (
-                <p className="mt-2 text-sm text-success inline-flex items-center gap-1.5"><Check size={14} /> CAMP10 applied — 10% off subtotal</p>
+                <p className="mt-2 text-sm text-success inline-flex items-center gap-1.5"><Check size={14} /> CAMP10 applied. 10% off subtotal</p>
               )}
               {promoState === "invalid" && (
                 <p className="mt-2 text-sm text-error inline-flex items-center gap-1.5"><AlertCircle size={14} /> Invalid promo code</p>

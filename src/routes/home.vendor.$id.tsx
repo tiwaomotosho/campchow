@@ -65,7 +65,7 @@ function ItemRow({ item, vendorId, locked }: { item: MenuItem; vendorId: string;
             <button onClick={() => setQty(item.id, line.qty + 1)} className="h-9 w-9 grid place-items-center text-brand hover:bg-brand-light"><Plus size={15} /></button>
           </div>
         ) : (
-          <button onClick={() => isLoggedIn ? add(item, vendorId) : requireAuth("Sign in to start your order and add items to cart.")}
+          <button onClick={() => isLoggedIn ? add(item, vendorId) : requireAuth("Sign in to start your order and add items to cart.", item, vendorId)}
             className="tap px-4 h-9 rounded-full bg-brand text-primary-foreground text-sm font-semibold hover:bg-brand-mid transition shadow-sm">
             Add
           </button>
@@ -79,7 +79,7 @@ function ItemRow({ item, vendorId, locked }: { item: MenuItem; vendorId: string;
 /* ── Reviews ──────────────────────────────────────────── */
 const REVIEWS_DATA: Record<string, { name: string; rating: number; date: string; comment: string }[]> = {
   default: [
-    { name: "Sister Funke", rating: 5, date: "May 25", comment: "Absolutely delicious! The jollof rice was smoky and the chicken was perfectly grilled. Delivery was fast — rider came straight to my chalet entrance." },
+    { name: "Sister Funke", rating: 5, date: "May 25", comment: "Absolutely delicious! The jollof rice was smoky and the chicken was perfectly grilled. Delivery was fast. The rider came straight to my chalet entrance." },
     { name: "Brother Tunde", rating: 4, date: "May 24", comment: "Very good food. The portions are generous and the taste is authentic. Only wish the egusi had a bit more stock. Will definitely order again." },
     { name: "Sister Adaeze", rating: 5, date: "May 23", comment: "Best food on the camp period. Mama Titi's kitchen never disappoints. The fried rice was exceptional." },
     { name: "Brother Samuel", rating: 5, date: "May 22", comment: "Ordered for myself and my family of 4. Everyone was happy. The moin moin was a bonus surprise!" },

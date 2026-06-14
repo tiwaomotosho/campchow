@@ -11,6 +11,26 @@ type Mode = "choice" | "signin" | "register" | "pending";
 const ZONES = ["Youth Centre","2000 Chalets","Old Auditorium","Mission House","RECTEM","Emmanuel Park","Estate 12","Estate 13","The Pavilion","Main Gate"];
 const VEHICLES = ["Motorbike","Bicycle","On foot"];
 
+function RiderShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="px-4 pt-6">
+        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-brand"><ArrowLeft size={16}/> Back</Link>
+      </div>
+      <main className="flex-1 grid place-items-center px-4 py-10">
+        <div className="w-full max-w-md">
+          <div className="flex flex-col items-center gap-3 mb-6">
+            <span className="h-14 w-14 rounded-2xl bg-gold-light text-gold grid place-items-center"><Bike size={28} strokeWidth={1.75}/></span>
+            <Logo/>
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Rider Portal</span>
+          </div>
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}
+
 function RiderLogin() {
   const navigate = useNavigate();
   const [mode, setMode]       = useState<Mode>("choice");
@@ -37,26 +57,10 @@ function RiderLogin() {
 
   const inp = "w-full h-11 pl-10 pr-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold text-sm transition";
 
-  const Shell = ({ children }: { children: React.ReactNode }) => (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="px-4 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-brand"><ArrowLeft size={16}/> Back</Link>
-      </div>
-      <main className="flex-1 grid place-items-center px-4 py-10">
-        <div className="w-full max-w-md">
-          <div className="flex flex-col items-center gap-3 mb-6">
-            <span className="h-14 w-14 rounded-2xl bg-gold-light text-gold grid place-items-center"><Bike size={28} strokeWidth={1.75}/></span>
-            <Logo/>
-            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Rider Portal</span>
-          </div>
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+
 
   if (mode === "pending") return (
-    <Shell>
+    <RiderShell>
       <div className="bg-card border border-border rounded-2xl p-8 shadow-sm text-center">
         <div className="h-16 w-16 rounded-full bg-amber/15 grid place-items-center mx-auto mb-4"><ShieldCheck size={32} className="text-amber"/></div>
         <h2 className="text-xl font-bold text-dark">Application submitted!</h2>
@@ -69,11 +73,11 @@ function RiderLogin() {
         </div>
         <Link to="/" className="tap mt-6 inline-flex items-center justify-center w-full h-12 rounded-xl bg-gold text-dark font-bold hover:brightness-105 transition">Return Home</Link>
       </div>
-    </Shell>
+    </RiderShell>
   );
 
   if (mode === "register") return (
-    <Shell>
+    <RiderShell>
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold text-dark">Join the rider network</h1>
@@ -113,11 +117,11 @@ function RiderLogin() {
         </button>
         <p className="mt-4 text-center text-xs text-muted-foreground">Already registered? <button onClick={()=>setMode("signin")} className="text-brand font-semibold">Sign in</button></p>
       </div>
-    </Shell>
+    </RiderShell>
   );
 
   if (mode === "signin") return (
-    <Shell>
+    <RiderShell>
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold text-dark">Welcome back, rider</h1>
@@ -140,12 +144,12 @@ function RiderLogin() {
         </button>
         <p className="mt-4 text-center text-xs text-muted-foreground">New rider? <button onClick={()=>setMode("register")} className="text-brand font-semibold">Join the network</button></p>
       </div>
-    </Shell>
+    </RiderShell>
   );
 
   // choice
   return (
-    <Shell>
+    <RiderShell>
       <div className="space-y-3">
         <button onClick={()=>setMode("signin")} className="tap w-full flex items-center gap-4 bg-card border border-border rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-gold/30 hover:-translate-y-0.5 transition-all">
           <span className="h-12 w-12 rounded-xl bg-gold-light grid place-items-center shrink-0"><Bike size={22} className="text-gold"/></span>
@@ -159,7 +163,7 @@ function RiderLogin() {
         </button>
         <p className="text-center text-xs text-muted-foreground pt-2">Requires a valid Redemption City estate ID</p>
       </div>
-    </Shell>
+    </RiderShell>
   );
 }
 

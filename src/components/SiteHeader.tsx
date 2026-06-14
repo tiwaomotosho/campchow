@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
-import { Menu, X, ShoppingCart, Store, Bike, Home, UtensilsCrossed } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Menu, X, ShoppingCart, Store, Bike, Home, UtensilsCrossed, LogOut, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 /**
  * Landing header, Zomato-style:
@@ -11,6 +12,19 @@ import { useEffect, useState } from "react";
 export function SiteHeader() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dropOpen, setDropOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const { isLoggedIn, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setDropOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 24);
@@ -53,16 +67,46 @@ export function SiteHeader() {
             <Link to="/home" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>Order Food</Link>
             <Link to="/vendor/login" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>For Vendors</Link>
             <Link to="/rider/login" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>For Riders</Link>
-            <Link
-              to="/home"
-              className={`tap text-sm font-bold px-5 h-10 rounded-full grid items-center transition-all duration-200 ${
-                solid
-                  ? "bg-brand text-white hover:bg-brand-mid"
-                  : "bg-white text-brand hover:bg-white/90"
-              }`}
-            >
-              Get Started
-            </Link>
+            {isLoggedIn && user ? (
+              <div className="relative" ref={dropRef}>
+                <button
+                  onClick={() => setDropOpen((v) => !v)}
+                  className={`tap flex items-center gap-2 px-3 h-10 rounded-full font-semibold text-sm transition-all duration-200 ${
+                    solid ? "bg-muted text-body hover:bg-muted/80" : "bg-white/15 text-white hover:bg-white/25 backdrop-blur"
+                  }`}
+                >
+                  <span className="h-6 w-6 rounded-full bg-brand text-white grid place-items-center text-xs font-bold shrink-0">
+                    {user.name[0].toUpperCase()}
+                  </span>
+                  <span className="max-w-[100px] truncate">{user.name.split(" ")[0]}</span>
+                </button>
+                {dropOpen && (
+                  <div className="absolute right-0 top-12 w-48 bg-card border border-border rounded-2xl shadow-xl p-2 z-50 animate-fade-in">
+                    <div className="px-3 py-2 border-b border-border mb-1">
+                      <p className="text-xs font-semibold text-dark truncate">{user.name}</p>
+                      {user.email && <p className="text-xs text-muted-foreground truncate">{user.email}</p>}
+                    </div>
+                    <button
+                      onClick={() => { logout(); setDropOpen(false); navigate({ to: "/" }); }}
+                      className="w-full flex items-center gap-2.5 px-3 h-10 rounded-xl text-sm font-semibold text-error hover:bg-error/10 transition-colors"
+                    >
+                      <LogOut size={15} /> Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/home"
+                className={`tap text-sm font-bold px-5 h-10 rounded-full grid items-center transition-all duration-200 ${
+                  solid
+                    ? "bg-brand text-white hover:bg-brand-mid"
+                    : "bg-white text-brand hover:bg-white/90"
+                }`}
+              >
+                Get Started
+              </Link>
+            )}
           </nav>
 
           {/* Mobile hamburger */}
@@ -108,12 +152,32 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="p-5">
-          <Link to="/home" onClick={() => setOpen(false)}
-            className="tap flex items-center justify-center h-12 rounded-xl bg-gold text-dark font-bold">
-            Get Started
-          </Link>
-          <p className="mt-4 text-[11px] text-white/40 text-center">Built for Redemption City</p>
+        <div className="p-5 space-y-3">
+          {isLoggedIn && user ? (
+            <>
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10">
+                <span className="h-8 w-8 rounded-full bg-brand text-white grid place-items-center text-sm font-bold shrink-0">
+                  {user.name[0].toUpperCase()}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-white font-semibold text-sm truncate">{user.name.split(" ")[0]}</p>
+                  {user.email && <p className="text-white/50 text-xs truncate">{user.email}</p>}
+                </div>
+              </div>
+              <button
+                onClick={() => { logout(); setOpen(false); navigate({ to: "/" }); }}
+                className="tap w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition"
+              >
+                <LogOut size={16} /> Sign out
+              </button>
+            </>
+          ) : (
+            <Link to="/home" onClick={() => setOpen(false)}
+              className="tap flex items-center justify-center h-12 rounded-xl bg-gold text-dark font-bold">
+              Get Started
+            </Link>
+          )}
+          <p className="text-[11px] text-white/40 text-center">Built for Redemption City</p>
         </div>
       </aside>
     </>

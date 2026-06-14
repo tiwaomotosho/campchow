@@ -10,7 +10,7 @@ import { naira } from "@/lib/format";
 export const Route = createFileRoute("/home/")({
   head: () => ({
     meta: [
-      { title: "Browse Vendors — CampChow" },
+      { title: "Browse Vendors | CampChow" },
       { name: "description", content: "Order from your favourite vendors and get it delivered to your zone." },
     ],
   }),
@@ -211,7 +211,7 @@ function Home() {
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               { n: 1, t: "Browse & build", d: "Browse vendors sorted by proximity and build your order from the freshest dishes." },
-              { n: 2, t: "Choose your zone", d: "Select your camp zone, area, and pickup point — no street address needed." },
+              { n: 2, t: "Choose your zone", d: "Select your camp zone, area, and pickup point. No street address needed." },
               { n: 3, t: "Rider delivers", d: "A verified camp rider with a confirmed estate ID brings it straight to you." },
             ].map((s) => (
               <div key={s.n} className={`p-6 rounded-2xl bg-card border border-border card-enter-${s.n}`}>

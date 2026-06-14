@@ -11,6 +11,26 @@ type Mode = "choice" | "signin" | "register" | "hours" | "pending";
 const ZONES = ["Youth Centre","2000 Chalets","Old Auditorium","Mission House","RECTEM","Emmanuel Park","Estate 12","Estate 13","The Pavilion","Canaan Land"];
 const CATS  = ["Local Nigerian","Fast Food","Pastries","Beverages","Protein & Grills","Local Soup","Snacks & Drinks","Rice Dishes"];
 
+function VendorShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="px-4 pt-6">
+        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-brand"><ArrowLeft size={16}/> Back</Link>
+      </div>
+      <main className="flex-1 grid place-items-center px-4 py-10">
+        <div className="w-full max-w-md">
+          <div className="flex flex-col items-center gap-3 mb-6">
+            <span className="h-14 w-14 rounded-2xl bg-brand-light text-brand grid place-items-center"><Store size={28} strokeWidth={1.75}/></span>
+            <Logo/>
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vendor Portal</span>
+          </div>
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}
+
 function VendorLogin() {
   const navigate = useNavigate();
   const [mode, setMode]       = useState<Mode>("choice");
@@ -39,26 +59,10 @@ function VendorLogin() {
 
   const inp = "w-full h-11 pl-10 pr-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand text-sm transition";
 
-  const Shell = ({ children }: { children: React.ReactNode }) => (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="px-4 pt-6">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-brand"><ArrowLeft size={16}/> Back</Link>
-      </div>
-      <main className="flex-1 grid place-items-center px-4 py-10">
-        <div className="w-full max-w-md">
-          <div className="flex flex-col items-center gap-3 mb-6">
-            <span className="h-14 w-14 rounded-2xl bg-brand-light text-brand grid place-items-center"><Store size={28} strokeWidth={1.75}/></span>
-            <Logo/>
-            <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vendor Portal</span>
-          </div>
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+
 
   if (mode === "pending") return (
-    <Shell>
+    <VendorShell>
       <div className="bg-card border border-border rounded-2xl p-8 shadow-sm text-center">
         <div className="h-16 w-16 rounded-full bg-amber/15 grid place-items-center mx-auto mb-4"><ShieldCheck size={32} className="text-amber"/></div>
         <h2 className="text-xl font-bold text-dark">Application received!</h2>
@@ -71,11 +75,11 @@ function VendorLogin() {
         </div>
         <Link to="/" className="tap mt-6 inline-flex items-center justify-center w-full h-12 rounded-xl bg-brand text-white font-bold hover:bg-brand-mid">Return Home</Link>
       </div>
-    </Shell>
+    </VendorShell>
   );
 
   if (mode === "hours") return (
-    <Shell>
+    <VendorShell>
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <h1 className="text-xl font-bold text-dark">Opening hours</h1>
         <p className="text-sm text-muted-foreground mt-1">Which days is your kitchen open?</p>
@@ -90,11 +94,11 @@ function VendorLogin() {
           {loading ? "Submitting…" : "Submit Application →"}
         </button>
       </div>
-    </Shell>
+    </VendorShell>
   );
 
   if (mode === "register") return (
-    <Shell>
+    <VendorShell>
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold text-dark">List your kitchen</h1>
@@ -126,11 +130,11 @@ function VendorLogin() {
         <button onClick={goRegHours} className="tap mt-6 w-full h-12 rounded-xl bg-brand text-white font-bold hover:bg-brand-mid transition">Continue <ChevronRight size={16} className="inline"/></button>
         <p className="mt-4 text-center text-xs text-muted-foreground">Already listed? <button onClick={()=>setMode("signin")} className="text-brand font-semibold">Sign in</button></p>
       </div>
-    </Shell>
+    </VendorShell>
   );
 
   if (mode === "signin") return (
-    <Shell>
+    <VendorShell>
       <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold text-dark">Welcome back</h1>
@@ -153,12 +157,12 @@ function VendorLogin() {
         </button>
         <p className="mt-4 text-center text-xs text-muted-foreground">New kitchen? <button onClick={()=>setMode("register")} className="text-brand font-semibold">List your kitchen</button></p>
       </div>
-    </Shell>
+    </VendorShell>
   );
 
   // choice screen
   return (
-    <Shell>
+    <VendorShell>
       <div className="space-y-3">
         <button onClick={()=>setMode("signin")} className="tap w-full flex items-center gap-4 bg-card border border-border rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brand/30 hover:-translate-y-0.5 transition-all">
           <span className="h-12 w-12 rounded-xl bg-brand-light grid place-items-center shrink-0"><Store size={22} className="text-brand"/></span>
@@ -172,7 +176,7 @@ function VendorLogin() {
         </button>
         <p className="text-center text-xs text-muted-foreground pt-2">Free to join during the pilot phase · CampChow Redemption City</p>
       </div>
-    </Shell>
+    </VendorShell>
   );
 }
 
