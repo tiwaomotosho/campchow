@@ -23,14 +23,11 @@ export const Route = createFileRoute("/")({
 /* ─────────────────────────────────────────────────────────
    HERO — crossfading food photography with Ken Burns drift
 ──────────────────────────────────────────────────────────── */
+import imagesData from "@/lib/images.json";
+const U = (id: string) => `${imagesData._baseUrl}${id}${imagesData._params}`;
 const img = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=1600&q=75`;
 const HERO_ZONES = ["Youth Centre", "2000 Chalets", "RECTEM", "Emmanuel Park", "Estate 12"];
-const HERO_IMAGES = [
-  img("photo-1604908176997-125f25cc6f3d"),
-  img("photo-1555939594-58d7cb561ad1"),
-  img("photo-1547592180-85f173990554"),
-  img("photo-1517248135467-4c7edcad34c4"),
-];
+const HERO_IMAGES = (imagesData.hero as string[]).map(U);
 
 function HeroBackdrop({ active }: { active: number }) {
   return (
@@ -123,14 +120,14 @@ function StatStrip() {
 }
 
 /* ── Category tiles ("What's on your mind?") ───────────── */
-const fb = (q: string) => `https://images.unsplash.com/${q}?auto=format&fit=crop&w=900&q=70`;
+const CT = imagesData.categoryTiles as Record<string, { src: string; fallback: string }>;
 const CATS = [
-  { label: "Jollof & Rice", src: img("photo-1604908176997-125f25cc6f3d"), fallback: fb("photo-1567620905732-2d1ec7ab7445") },
-  { label: "Grills & Suya", src: img("photo-1555939594-58d7cb561ad1"),    fallback: fb("photo-1432139555190-58524dae6a55") },
-  { label: "Pastries",      src: img("photo-1509440159596-0249088772ff"), fallback: fb("photo-1620921568790-c1cf8984624c") },
-  { label: "Pepper Soup",   src: img("photo-1547592180-85f173990554"),    fallback: fb("photo-1598866594230-a7c12756260f") },
-  { label: "Drinks",        src: img("photo-1551024709-8f23befc6f87"),    fallback: fb("photo-1437418747212-8d9709afab22") },
-  { label: "Shawarma",      src: img("photo-1633321702518-7feccafb94d5"), fallback: fb("photo-1561758033-d89a9ad46330") },
+  { label: "Jollof & Rice", src: U(CT["jollof-rice"].src), fallback: U(CT["jollof-rice"].fallback) },
+  { label: "Grills & Suya", src: U(CT["grills-suya"].src), fallback: U(CT["grills-suya"].fallback) },
+  { label: "Pastries",      src: U(CT["pastries"].src),    fallback: U(CT["pastries"].fallback) },
+  { label: "Pepper Soup",   src: U(CT["pepper-soup"].src), fallback: U(CT["pepper-soup"].fallback) },
+  { label: "Drinks",        src: U(CT["drinks"].src),      fallback: U(CT["drinks"].fallback) },
+  { label: "Shawarma",      src: U(CT["shawarma"].src),    fallback: U(CT["shawarma"].fallback) },
 ];
 function CategoryRow() {
   return (
@@ -567,7 +564,7 @@ function Landing() {
           <div className="mt-7 grid md:grid-cols-2 gap-4">
             <Reveal delay={1}>
               <Link to="/vendor/login" className="tap group relative block rounded-3xl overflow-hidden min-h-[300px] shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                <SmartImage src={img("photo-1556910103-1c02745aae4d")} fallbackSrc={fb("photo-1466637574441-749b8f19452f")} alt="Kitchen" seed="vendor kitchen" eager className="absolute inset-0" imgClassName="group-hover:scale-105 transition-transform duration-700" />
+                <SmartImage src={U((imagesData.lifestyle as Record<string,{src:string;fallback:string}>)["kitchen-vendor"].src)} fallbackSrc={U((imagesData.lifestyle as Record<string,{src:string;fallback:string}>)["kitchen-vendor"].fallback)} alt="Kitchen" seed="vendor kitchen" eager className="absolute inset-0" imgClassName="group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0" style={{background:"linear-gradient(150deg, oklch(0.16 0.03 155 / 0.92), oklch(0.20 0.04 152 / 0.78))"}} />
                 <div className="relative p-7 flex flex-col justify-between min-h-[300px]">
                   <div>
@@ -586,7 +583,7 @@ function Landing() {
             </Reveal>
             <Reveal delay={2}>
               <Link to="/rider/login" className="tap group relative block rounded-3xl overflow-hidden min-h-[300px] shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                <SmartImage src={img("photo-1517649763962-0c623066013b")} fallbackSrc={fb("photo-1571068316344-75bc76f77890")} alt="Rider" seed="rider delivery" eager className="absolute inset-0" imgClassName="group-hover:scale-105 transition-transform duration-700" />
+                <SmartImage src={U((imagesData.lifestyle as Record<string,{src:string;fallback:string}>)["rider-delivery"].src)} fallbackSrc={U((imagesData.lifestyle as Record<string,{src:string;fallback:string}>)["rider-delivery"].fallback)} alt="Rider" seed="rider delivery" eager className="absolute inset-0" imgClassName="group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0" style={{background:"linear-gradient(150deg, oklch(0.45 0.12 78 / 0.92), oklch(0.40 0.10 70 / 0.80))"}} />
                 <div className="relative p-7 flex flex-col justify-between min-h-[300px]">
                   <div>
