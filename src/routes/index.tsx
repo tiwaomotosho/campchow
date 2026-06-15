@@ -175,7 +175,7 @@ function GeoShowcase() {
   const d = DESTS[i];
   const rows = [
     { label: "Location",     value: d.loc,   color: "text-white" },
-    { label: "Area",         value: d.area,  color: "text-brand-light" },
+    { label: "Area",         value: d.area,  color: "text-white" },
     { label: "Pickup Point", value: d.point, color: "text-gold" },
   ];
   return (

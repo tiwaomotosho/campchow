@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, X, ShoppingCart, Store, Bike, Home, UtensilsCrossed, LogOut, User } from "lucide-react";
+import { Menu, X, ShoppingCart, Store, Bike, Home, UtensilsCrossed, LogOut, User, Sun, Moon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { useTheme } from "@/hooks/use-theme";
 
 /**
  * Landing header, Zomato-style:
@@ -15,6 +16,7 @@ export function SiteHeader() {
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, user, logout } = useAuth();
+  const { theme, toggle } = useTheme();
   const navigate = useNavigate();
 
   // close dropdown on outside click
@@ -67,6 +69,13 @@ export function SiteHeader() {
             <Link to="/home" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>Order Food</Link>
             <Link to="/vendor/login" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>For Vendors</Link>
             <Link to="/rider/login" className={`text-sm font-semibold transition-colors duration-200 ${linkCls}`}>For Riders</Link>
+            <button
+              onClick={toggle}
+              aria-label="Toggle dark mode"
+              className={`tap grid place-items-center h-9 w-9 rounded-full transition-colors ${solid ? "hover:bg-muted text-body" : "text-white hover:bg-white/15"}`}
+            >
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
             {isLoggedIn && user ? (
               <div className="relative" ref={dropRef}>
                 <button

@@ -100,11 +100,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Runs before paint: applies saved/OS theme to <html> (no flash) and paints a
+// full-screen blocking layer in the page background colour so the splash is the
+// very first thing on screen — before the bundle hydrates.
+const PRE_PAINT = `
+(function(){
+  try {
+    var t = localStorage.getItem('cc-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (t === 'dark') document.documentElement.classList.add('dark');
+  } catch(e) {}
+  try {
+    if (!sessionStorage.getItem('cc-splash-seen')) {
+      var d = document.createElement('div');
+      d.id = 'cc-pre-splash';
+      d.style.cssText = 'position:fixed;inset:0;z-index:300;background:var(--color-background,#0c0f0d);';
+      var add = function(){ if(document.body){ document.body.appendChild(d); } else { requestAnimationFrame(add); } };
+      add();
+    }
+  } catch(e) {}
+})();
+`;
+
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} />
       </head>
       <body>
         {children}

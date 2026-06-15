@@ -1,14 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { ShoppingCart, Menu, X, Home, UtensilsCrossed, Store, Bike, User as UserIcon, LogOut, ClipboardList, Heart } from "lucide-react";
+import { ShoppingCart, Menu, X, Home, UtensilsCrossed, Store, Bike, User as UserIcon, LogOut, ClipboardList, Heart, Sun, Moon } from "lucide-react";
 import { Logo } from "./Logo";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth-context";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/hooks/use-theme";
 import { toast } from "sonner";
 
 export function TopNav() {
   const { count } = useCart();
   const { user, isLoggedIn, logout, requireAuth } = useAuth();
+  const { theme, toggle } = useTheme();
   const prevCount = useRef(count);
   const [popping, setPopping] = useState(false);
   const [open, setOpen] = useState(false);
@@ -46,6 +48,9 @@ export function TopNav() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <button onClick={toggle} aria-label="Toggle dark mode" className="grid place-items-center h-10 w-10 rounded-full hover:bg-muted transition text-body">
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
             <Link to="/home/cart" className="relative grid place-items-center h-10 w-10 rounded-full hover:bg-muted transition" aria-label={`Cart — ${count} items`}>
               <ShoppingCart size={22} strokeWidth={1.75} className="text-body" />
               {count > 0 && <span className={`absolute -top-0.5 -right-0.5 h-5 min-w-5 px-1 rounded-full bg-gold text-white text-[11px] font-bold grid place-items-center ${popping ? "animate-badge-pop" : ""}`}>{count}</span>}
@@ -107,7 +112,13 @@ export function TopNav() {
             </Link>
           ))}
         </nav>
-        <div className="p-5">
+        <div className="px-3 pb-2">
+          <button onClick={toggle} className="w-full flex items-center gap-3 px-4 h-12 rounded-xl text-white/85 font-semibold hover:bg-white/10 transition-colors">
+            {theme === "dark" ? <Sun size={19} className="text-gold" /> : <Moon size={19} className="text-gold" />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </button>
+        </div>
+        <div className="p-5 pt-0">
           {isLoggedIn ? (
             <button onClick={() => { setOpen(false); logout(); toast("Signed out"); }} className="tap w-full h-12 rounded-xl bg-white/10 text-white font-bold flex items-center justify-center gap-2"><LogOut size={17} /> Sign Out</button>
           ) : (
