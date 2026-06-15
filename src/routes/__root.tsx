@@ -10,6 +10,7 @@ import {
 import { CartProvider } from "@/lib/cart-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { AuthModal } from "@/components/AuthModal";
+import { SplashScreen } from "@/components/SplashScreen";
 import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 
@@ -121,6 +122,7 @@ function RootComponent() {
         <CartProvider>
           <Outlet />
           <AuthModal />
+          <SplashScreen />
           <Toaster position="top-center" richColors />
         </CartProvider>
       </AuthProvider>
