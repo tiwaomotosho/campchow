@@ -162,6 +162,13 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="p-5 space-y-3">
+          <button
+            onClick={toggle}
+            className="w-full flex items-center gap-3 px-4 h-12 rounded-xl text-white/85 font-semibold hover:bg-white/10 transition-colors"
+          >
+            {theme === "dark" ? <Sun size={19} className="text-gold" /> : <Moon size={19} className="text-gold" />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </button>
           {isLoggedIn && user ? (
             <>
               <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10">
@@ -182,7 +189,7 @@ export function SiteHeader() {
             </>
           ) : (
             <Link to="/home" onClick={() => setOpen(false)}
-              className="tap flex items-center justify-center h-12 rounded-xl bg-gold text-dark font-bold">
+              className="tap flex items-center justify-center h-12 rounded-xl bg-gold text-on-gold font-bold">
               Get Started
             </Link>
           )}

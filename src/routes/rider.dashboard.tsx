@@ -90,7 +90,7 @@ function RiderDashboard() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl font-bold text-white">Brother Emmanuel Adeyemi</h1>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gold text-dark text-[11px] font-bold"><Trophy size={11} /> Top 10%</span>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gold text-on-gold text-[11px] font-bold"><Trophy size={11} /> Top 10%</span>
               </div>
               <p className="text-sm text-white/65 inline-flex items-center gap-2 mt-0.5">
                 <span className="inline-flex items-center gap-1"><Star size={13} className="fill-gold text-gold" /> 4.8</span>
@@ -178,7 +178,7 @@ function RiderDashboard() {
                   <span className="text-sm font-semibold text-white">Cancel this delivery?</span>
                   <div className="flex gap-2">
                     <button onClick={() => setConfirmCancel(false)} className="tap px-3 h-9 rounded-full bg-white/15 text-white text-sm font-semibold">Keep</button>
-                    <button onClick={cancelActive} className="tap px-4 h-9 rounded-full bg-white text-error text-sm font-bold">Yes, cancel</button>
+                    <button onClick={cancelActive} className="tap px-4 h-9 rounded-full bg-card text-error text-sm font-bold border border-error/30">Yes, cancel</button>
                   </div>
                 </div>
               )}

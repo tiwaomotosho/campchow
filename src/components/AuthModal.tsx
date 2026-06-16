@@ -150,7 +150,7 @@ export function AuthModal() {
           <button onClick={() => ssoLogin("google")} className="tap w-full h-12 rounded-xl border border-border bg-card font-semibold text-body inline-flex items-center justify-center gap-2.5 hover:bg-muted transition">
             <GoogleG /> Continue with Google
           </button>
-          <button onClick={() => ssoLogin("apple")} className="tap w-full h-12 rounded-xl bg-dark text-white font-semibold inline-flex items-center justify-center gap-2.5 hover:opacity-90 transition">
+          <button onClick={() => ssoLogin("apple")} className="tap w-full h-12 rounded-xl bg-foreground text-background font-semibold inline-flex items-center justify-center gap-2.5 hover:opacity-90 transition">
             <AppleLogo /> Continue with Apple
           </button>
           <button onClick={() => setScreen("phone")} className="tap w-full h-12 rounded-xl bg-brand text-white font-semibold inline-flex items-center justify-center gap-2.5 hover:bg-brand-mid transition">

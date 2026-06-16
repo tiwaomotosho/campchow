@@ -190,7 +190,7 @@ function GeoShowcase() {
             Redemption City navigates by landmark, so we built delivery around the camp's own
             language. Pick your location, area, and pickup point. Your rider knows exactly where that is.
           </p>
-          <Link to="/home" className="tap mt-6 inline-flex items-center gap-2 px-6 h-12 rounded-full bg-gold text-dark font-bold hover:brightness-105 transition">
+          <Link to="/home" className="tap mt-6 inline-flex items-center gap-2 px-6 h-12 rounded-full bg-gold text-on-gold font-bold hover:brightness-105 transition">
             Try it now <ArrowRight size={17} />
           </Link>
         </div>
@@ -201,7 +201,7 @@ function GeoShowcase() {
               <div key={r.label} className="geo-step">
                 <div className="flex items-center gap-3">
                   <span className="h-6 w-6 rounded-full border-2 border-brand-mid bg-brand/30 grid place-items-center shrink-0">
-                    <MapPin size={12} className="text-brand-light" />
+                    <MapPin size={12} className="text-gold-ondark" />
                   </span>
                   <div className="min-w-0">
                     <p className="text-white/40 text-[10px] uppercase tracking-wider font-semibold leading-none mb-1">{r.label}</p>
@@ -295,7 +295,7 @@ function AnimatedPhone() {
   }, []);
 
   const statusBar = (
-    <div className="flex items-center justify-between mb-2.5 text-dark">
+    <div className="flex items-center justify-between mb-2.5" style={{ color: "oklch(0.20 0.025 155)" }}>
       <span className="text-[9px] font-bold">9:41</span>
       <span className={`inline-flex items-center gap-1 transition-colors duration-500 ${state === 0 ? "text-success" : state === 1 ? "text-amber" : "text-error"}`}>
         {state === 2 ? <span className="text-[8px] font-bold">2G</span> : <SignalBars level={state === 0 ? 3 : 1} />}
@@ -306,8 +306,8 @@ function AnimatedPhone() {
 
   return (
     <div className="mx-auto">
-      <div className="w-56 rounded-[2.4rem] border-[8px] border-dark bg-background p-3 shadow-2xl relative overflow-hidden">
-        <div className="h-1 w-14 mx-auto rounded-full bg-dark/20 mb-2.5" />
+      <div className="w-56 rounded-[2.4rem] border-[8px] p-3 shadow-2xl relative overflow-hidden" style={{ borderColor: "oklch(0.15 0.02 155)", background: "oklch(0.985 0.005 150)" }}>
+        <div className="h-1 w-14 mx-auto rounded-full mb-2.5" style={{ background: "oklch(0.15 0.02 155 / 0.20)" }} />
         {statusBar}
 
         {/* STATE 0 — Full PWA */}
@@ -323,8 +323,8 @@ function AnimatedPhone() {
                 <div key={i} className={`rounded-lg overflow-hidden card-enter-${i+1}`}>
                   <div className="h-10" style={{ background: ["linear-gradient(135deg,#E8821E,#B5471F)","linear-gradient(135deg,#C0392B,#6E2516)","linear-gradient(135deg,#1A6B3C,#0D3B20)","linear-gradient(135deg,#C98A3A,#7A4E1E)"][i] }} />
                   <div className="bg-card border border-t-0 border-border rounded-b-lg px-1.5 py-1">
-                    <div className="h-1.5 w-3/4 rounded bg-dark/15" />
-                    <div className="mt-1 h-1 w-1/2 rounded bg-dark/10" />
+                    <div className="h-1.5 w-3/4 rounded" style={{ background: "oklch(0.20 0.025 155 / 0.15)" }} />
+                    <div className="mt-1 h-1 w-1/2 rounded" style={{ background: "oklch(0.20 0.025 155 / 0.10)" }} />
                   </div>
                 </div>
               ))}
@@ -347,9 +347,9 @@ function AnimatedPhone() {
             </div>
             <div className="rounded-xl bg-card border border-border p-2.5 flex items-center gap-2">
               <span className="relative flex h-2 w-2"><span className="animate-ping absolute h-full w-full rounded-full bg-amber opacity-75" /><span className="relative rounded-full h-2 w-2 bg-amber" /></span>
-              <span className="text-[10px] font-semibold text-dark">1 order queued · syncing…</span>
+              <span className="text-[10px] font-semibold text-body">1 order queued · syncing…</span>
             </div>
-            <div className="mt-2 rounded-lg bg-dark text-white text-center text-[10px] font-bold py-1.5">Order saved offline</div>
+            <div className="mt-2 rounded-lg text-white text-center text-[10px] font-bold py-1.5" style={{ background: "oklch(0.20 0.025 155)" }}>Order saved offline</div>
           </div>
         )}
 
@@ -358,9 +358,9 @@ function AnimatedPhone() {
           <div className="animate-fade-in">
             <div className="flex items-center gap-1.5 mb-2">
               <span className="grid place-items-center h-6 w-6 rounded-lg bg-error text-white"><WifiOff size={13} /></span>
-              <span className="font-extrabold text-xs text-dark">Zero-Data Mode</span>
+              <span className="font-extrabold text-xs" style={{ color: "oklch(0.20 0.025 155)" }}>Zero-Data Mode</span>
             </div>
-            <div className="rounded-xl bg-dark text-white p-3 font-mono">
+            <div className="rounded-xl text-white p-3 font-mono" style={{ background: "oklch(0.20 0.025 155)" }}>
               <p className="text-[10px] text-white/60">USSD · no internet needed</p>
               <p className="text-sm font-bold mt-1">*737*1*2000#</p>
               <div className="my-2 h-px bg-white/15" />
@@ -375,7 +375,7 @@ function AnimatedPhone() {
         {/* progress dots */}
         <div className="flex justify-center gap-1.5 mt-3">
           {[0,1,2].map((i) => (
-            <span key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === state ? "w-5 bg-brand" : "w-1.5 bg-dark/20"}`} />
+            <span key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === state ? "w-5 bg-brand" : "w-1.5"}`} style={i !== state ? { background: "oklch(0.20 0.025 155 / 0.20)" } : {}} />
           ))}
         </div>
       </div>
@@ -486,7 +486,7 @@ function Landing() {
               onSubmit={(e) => { e.preventDefault(); navigate({ to: "/home" }); }}
               className="mt-8 animate-fade-up-3"
             >
-              <div className="mx-auto max-w-2xl flex items-center bg-white rounded-full h-14 md:h-16 pl-4 pr-2 shadow-2xl shadow-black/25 transition-shadow duration-200 focus-within:ring-4 focus-within:ring-gold/40">
+              <div className="mx-auto max-w-2xl flex items-center bg-card rounded-full h-14 md:h-16 pl-4 pr-2 shadow-2xl shadow-black/25 transition-shadow duration-200 focus-within:ring-4 focus-within:ring-gold/40">
                 <span className="hidden sm:flex items-center gap-1.5 pr-3 text-sm font-semibold text-body shrink-0">
                   <MapPin size={16} className="text-brand" />
                   <span key={zoneIdx} className="tick-in inline-block min-w-[92px]">{HERO_ZONES[zoneIdx]}</span>
@@ -505,7 +505,7 @@ function Landing() {
 
             {/* dual CTAs — Zomato's "Order Food / Dining Out" */}
             <div className="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 animate-fade-up-4">
-              <Link to="/home" className="tap h-12 px-8 rounded-full bg-gold text-dark font-bold grid items-center hover:brightness-105 transition">
+              <Link to="/home" className="tap h-12 px-8 rounded-full bg-gold text-on-gold font-bold grid items-center hover:brightness-105 transition">
                 Order Food
               </Link>
               <a href="#get-started" className="tap h-12 px-8 rounded-full bg-white/10 border border-white/30 text-white font-bold grid items-center backdrop-blur hover:bg-white hover:text-brand transition-colors duration-200">

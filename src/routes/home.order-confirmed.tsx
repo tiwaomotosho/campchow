@@ -112,7 +112,7 @@ function RouteMap({ phase }: { phase: Phase }) {
       {showBike && (
         <div className="absolute transition-all duration-[1500ms] ease-in-out"
           style={{ left: `${11 + bikePct * 0.71}%`, top: `${60 - bikePct * 0.34}%` }}>
-          <span className="grid place-items-center h-9 w-9 rounded-full bg-white text-brand shadow-xl ring-2 ring-brand -translate-x-1/2 -translate-y-1/2 pulse-ring">
+          <span className="grid place-items-center h-9 w-9 rounded-full bg-card text-brand shadow-xl ring-2 ring-brand -translate-x-1/2 -translate-y-1/2 pulse-ring">
             <Bike size={17} />
           </span>
         </div>

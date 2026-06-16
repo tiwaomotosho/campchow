@@ -90,22 +90,15 @@
   --card-foreground: oklch(0.97 0.005 150);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-
-  /* Text inks: must be light on the dark background */
-  --dark: oklch(0.97 0.005 150);        /* headings (was near-black) */
-  --body: oklch(0.90 0.008 150);        /* body copy */
-  --muted-ink: oklch(0.68 0.015 155);   /* secondary / muted text */
-
-  /* Surfaces: tinted-light fills become subtle dark tints */
+  --dark: oklch(0.97 0.005 150);
+  --body: oklch(0.90 0.008 150);
+  --muted-ink: oklch(0.68 0.015 155);
   --muted: oklch(0.27 0.02 155);
-  --brand-light: oklch(0.30 0.05 152);  /* bg behind brand text/icons */
-  --gold-light: oklch(0.32 0.05 85);    /* bg behind gold accents */
-
-  /* Brand/gold text slightly lifted for legibility on dark */
+  --brand-light: oklch(0.30 0.05 152);
+  --gold-light: oklch(0.32 0.05 85);
   --brand: oklch(0.72 0.14 150);
   --brand-mid: oklch(0.66 0.13 152);
   --gold: oklch(0.78 0.14 85);
-
   --secondary: var(--brand-light);
   --secondary-foreground: oklch(0.90 0.05 150);
   --accent: var(--gold-light);
@@ -361,3 +354,12 @@
   font-weight: 700;
 }
 @media (min-width: 768px) { .t-micro { font-size: 0.75rem; } }
+
+.on-dark           { color: oklch(0.97 0.005 150) !important; }
+.text-on-dark      { color: oklch(0.97 0.005 150) !important; }
+.on-dark-soft      { color: oklch(0.97 0.005 150 / 0.65) !important; }
+.on-dark-faint     { color: oklch(0.97 0.005 150 / 0.45) !important; }
+.text-brand-ondark { color: oklch(0.80 0.13 150) !important; }
+.text-gold-ondark  { color: oklch(0.80 0.14 85) !important; }
+.bg-brand-ondark   { background-color: oklch(0.30 0.06 152) !important; }
+.text-on-gold      { color: oklch(0.20 0.025 155) !important; }

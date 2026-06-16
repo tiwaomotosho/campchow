@@ -71,7 +71,7 @@ function RiderLogin() {
           <p className="text-sm text-body">2. Phone confirmation sent</p>
           <p className="text-sm text-body">3. Go Online toggle activated on your dashboard</p>
         </div>
-        <Link to="/" className="tap mt-6 inline-flex items-center justify-center w-full h-12 rounded-xl bg-gold text-dark font-bold hover:brightness-105 transition">Return Home</Link>
+        <Link to="/" className="tap mt-6 inline-flex items-center justify-center w-full h-12 rounded-xl bg-gold text-on-gold font-bold hover:brightness-105 transition">Return Home</Link>
       </div>
     </RiderShell>
   );
@@ -100,7 +100,7 @@ function RiderLogin() {
           <Field label="Vehicle type">
             <div className="flex gap-2 flex-wrap">
               {VEHICLES.map(v=>(
-                <button key={v} onClick={()=>setVehicle(v)} className={`tap px-4 h-10 rounded-full text-sm font-semibold border transition ${vehicle===v?"bg-gold text-dark border-gold":"bg-background border-border text-body"}`}>{v}</button>
+                <button key={v} onClick={()=>setVehicle(v)} className={`tap px-4 h-10 rounded-full text-sm font-semibold border transition ${vehicle===v?"bg-gold text-on-gold border-gold":"bg-background border-border text-body"}`}>{v}</button>
               ))}
             </div>
           </Field>
@@ -112,7 +112,7 @@ function RiderLogin() {
               </select></div>
           </Field>
         </div>
-        <button onClick={goPending} disabled={loading} className="tap mt-6 w-full h-12 rounded-xl bg-gold text-dark font-bold hover:brightness-105 transition disabled:opacity-50">
+        <button onClick={goPending} disabled={loading} className="tap mt-6 w-full h-12 rounded-xl bg-gold text-on-gold font-bold hover:brightness-105 transition disabled:opacity-50">
           {loading?"Submitting…":"Submit Application"}
         </button>
         <p className="mt-4 text-center text-xs text-muted-foreground">Already registered? <button onClick={()=>setMode("signin")} className="text-brand font-semibold">Sign in</button></p>
@@ -139,7 +139,7 @@ function RiderLogin() {
             </div>
           </Field>
         </div>
-        <button onClick={goSignIn} disabled={loading} className="tap mt-6 w-full h-12 rounded-xl bg-gold text-dark font-bold hover:brightness-105 transition disabled:opacity-50">
+        <button onClick={goSignIn} disabled={loading} className="tap mt-6 w-full h-12 rounded-xl bg-gold text-on-gold font-bold hover:brightness-105 transition disabled:opacity-50">
           {loading?"Signing in…":"Login as Rider"}
         </button>
         <p className="mt-4 text-center text-xs text-muted-foreground">New rider? <button onClick={()=>setMode("register")} className="text-brand font-semibold">Join the network</button></p>

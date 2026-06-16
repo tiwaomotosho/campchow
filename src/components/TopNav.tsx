@@ -122,7 +122,7 @@ export function TopNav() {
           {isLoggedIn ? (
             <button onClick={() => { setOpen(false); logout(); toast("Signed out"); }} className="tap w-full h-12 rounded-xl bg-white/10 text-white font-bold flex items-center justify-center gap-2"><LogOut size={17} /> Sign Out</button>
           ) : (
-            <button onClick={() => { setOpen(false); requireAuth(); }} className="tap w-full h-12 rounded-xl bg-gold text-dark font-bold flex items-center justify-center gap-2"><UserIcon size={17} /> Sign in / Sign up</button>
+            <button onClick={() => { setOpen(false); requireAuth(); }} className="tap w-full h-12 rounded-xl bg-gold text-on-gold font-bold flex items-center justify-center gap-2"><UserIcon size={17} /> Sign in / Sign up</button>
           )}
         </div>
       </aside>

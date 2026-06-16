@@ -42,7 +42,7 @@ function VendorCard({ v, index }: { v: Vendor; index: number }) {
         />
         {/* gold offer badge — Zomato-style top-left */}
         {hasOffer && (
-          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-gold text-dark text-[10px] font-extrabold uppercase tracking-wide shadow">
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-gold text-on-gold text-[10px] font-extrabold uppercase tracking-wide shadow">
             10% off · CAMP10
           </span>
         )}
@@ -166,7 +166,7 @@ function Home() {
               <button
                 key={c}
                 onClick={() => setCat(c)}
-                className={`shrink-0 px-4 h-9 rounded-full border text-sm font-medium transition-all ${cat === c ? "bg-gold text-white border-gold shadow-sm" : "bg-card border-border text-body hover:border-gold/40"}`}
+                className={`shrink-0 px-4 h-9 rounded-full border text-sm font-medium transition-all ${cat === c ? "bg-gold text-on-gold border-gold shadow-sm" : "bg-card border-border text-body hover:border-gold/40"}`}
               >
                 {c}
               </button>

@@ -79,7 +79,7 @@ function Cart() {
                   placeholder="Enter code (try CAMP10)"
                   className="flex-1 h-11 px-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand text-sm"
                 />
-                <button onClick={applyPromo} className="px-5 h-11 rounded-xl bg-dark text-white text-sm font-semibold">
+                <button onClick={applyPromo} className="px-5 h-11 rounded-xl bg-foreground text-background text-sm font-semibold">
                   Apply
                 </button>
               </div>
