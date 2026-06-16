@@ -1,11 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, MapPin, Star, Clock, Zap, ShoppingBag } from "lucide-react";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { VENDORS, ZONES, CATEGORIES, type Vendor } from "@/lib/data";
 import { SmartImage } from "@/components/SmartImage";
 import { naira } from "@/lib/format";
+import { useFirstSession } from "@/hooks/use-first-session";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { GestureHint } from "@/components/GestureHint";
+import { HelpBanner } from "@/components/HelpBanner";
+import { WalkthroughSpotlight } from "@/components/WalkthroughSpotlight";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -22,6 +27,25 @@ const matchCategory = (v: Vendor, cat: string) => {
   return v.category.toLowerCase().includes(cat.toLowerCase().split(" ")[0]);
 };
 
+/* ── Skeleton card ───────────────────────────────────────── */
+function VendorSkeleton({ index }: { index: number }) {
+  return (
+    <div className={`bg-card rounded-2xl overflow-hidden border border-border card-enter-${Math.min(index + 1, 10)}`}>
+      <div className="h-40 img-shimmer" />
+      <div className="p-4 space-y-2.5">
+        <div className="h-4 w-3/5 rounded img-shimmer" />
+        <div className="h-3 w-2/5 rounded img-shimmer" />
+        <div className="mt-3 flex justify-between gap-2">
+          <div className="h-3 w-16 rounded img-shimmer" />
+          <div className="h-3 w-16 rounded img-shimmer" />
+          <div className="h-3 w-14 rounded img-shimmer" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Real vendor card ────────────────────────────────────── */
 function VendorCard({ v, index }: { v: Vendor; index: number }) {
   const enterClass = `card-enter-${Math.min(index + 1, 10)}`;
   const hasOffer = v.open && v.rating >= 4.6;
@@ -40,7 +64,6 @@ function VendorCard({ v, index }: { v: Vendor; index: number }) {
           className="absolute inset-0"
           imgClassName="group-hover:scale-105 transition-transform duration-500 ease-out"
         />
-        {/* gold offer badge — Zomato-style top-left */}
         {hasOffer && (
           <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-gold text-on-gold text-[10px] font-extrabold uppercase tracking-wide shadow">
             10% off · CAMP10
@@ -50,7 +73,6 @@ function VendorCard({ v, index }: { v: Vendor; index: number }) {
           <span className={`h-1.5 w-1.5 rounded-full ${v.open ? "bg-success" : "bg-muted-foreground"}`} />
           {v.open ? "Open" : "Closed"}
         </span>
-        {/* green rating pill on photo — Zomato signature */}
         <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-success text-white text-xs font-bold shadow">
           {v.rating} <Star size={10} className="fill-white text-white" />
         </span>
@@ -75,11 +97,61 @@ function VendorCard({ v, index }: { v: Vendor; index: number }) {
   );
 }
 
+/* ── Page ────────────────────────────────────────────────── */
 function Home() {
   const [query, setQuery] = useState("");
   const [zone, setZone] = useState("All Zones");
   const [cat, setCat] = useState("All");
 
+  /* ── onboarding state ── */
+  const isFirst = useFirstSession("cc-home-visited");
+  const isMobile = useIsMobile();
+
+  // Skeleton loading: show shimmer for ~600 ms on mobile, ~350 ms on desktop,
+  // but only on the very first page load of the session.
+  const [skelLoading, setSkelLoading] = useState(isFirst);
+  useEffect(() => {
+    if (!isFirst) return;
+    const t = setTimeout(() => setSkelLoading(false), isMobile ? 600 : 350);
+    return () => clearTimeout(t);
+  }, [isFirst, isMobile]);
+
+  // Mobile: gesture hint overlay (shows immediately; dismissed by user or timeout)
+  const [showGestureHint, setShowGestureHint] = useState(isFirst);
+
+  // Mobile: persistent tip banner below TopNav
+  const [showBanner, setShowBanner] = useState(isFirst);
+
+  // Desktop: 2-step walkthrough spotlight (waits for skeleton to clear)
+  const [showSpotlight, setShowSpotlight] = useState(false);
+  useEffect(() => {
+    if (!isFirst || isMobile === undefined) return;
+    if (isMobile) return; // mobile gets gesture hint instead
+    if (!skelLoading) {
+      // small delay so the grid has painted before we spotlight the search bar
+      const t = setTimeout(() => setShowSpotlight(true), 200);
+      return () => clearTimeout(t);
+    }
+  }, [isFirst, isMobile, skelLoading]);
+
+  /* ── refs for spotlight targets ── */
+  const searchRef = useRef<HTMLDivElement>(null);
+  const zoneRowRef = useRef<HTMLDivElement>(null);
+
+  const spotlightSteps = [
+    {
+      label: "Search vendors or dishes",
+      description: "Type a keyword — vendor name, food type, or dish — to instantly filter your results.",
+      getRect: () => searchRef.current?.getBoundingClientRect() ?? null,
+    },
+    {
+      label: "Filter by camp zone",
+      description: "Tap any zone pill to see only vendors delivering to that part of Redemption City.",
+      getRect: () => zoneRowRef.current?.getBoundingClientRect() ?? null,
+    },
+  ];
+
+  /* ── vendor filtering ── */
   const filtered = useMemo(() => {
     return VENDORS.filter((v) => {
       if (zone !== "All Zones" && v.zone !== zone) return false;
@@ -95,7 +167,25 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* ── Mobile gesture hint overlay (first session only) ── */}
+      {isFirst && showGestureHint && isMobile && (
+        <GestureHint onDismiss={() => setShowGestureHint(false)} />
+      )}
+
+      {/* ── Desktop walkthrough spotlight (first session only) ── */}
+      {isFirst && showSpotlight && !isMobile && (
+        <WalkthroughSpotlight
+          steps={spotlightSteps}
+          onDone={() => setShowSpotlight(false)}
+        />
+      )}
+
       <TopNav />
+
+      {/* ── Mobile help banner (first session only) ── */}
+      {isFirst && showBanner && (
+        <HelpBanner onDismiss={() => setShowBanner(false)} />
+      )}
 
       <main className="mx-auto max-w-6xl px-4 pb-12">
         {/* Hero */}
@@ -109,7 +199,7 @@ function Home() {
         </section>
 
         {/* Search */}
-        <div className="relative animate-fade-up-1">
+        <div ref={searchRef} className="relative animate-fade-up-1">
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           <input
             value={query}
@@ -143,7 +233,7 @@ function Home() {
         </div>
 
         {/* Zone filter */}
-        <div className="mt-6 animate-fade-up-2">
+        <div ref={zoneRowRef} className="mt-6 animate-fade-up-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Zones</p>
           <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4">
             {ZONES.map((z) => (
@@ -175,7 +265,7 @@ function Home() {
         </div>
 
         {/* Results label */}
-        {(zone !== "All Zones" || cat !== "All" || query) && (
+        {(zone !== "All Zones" || cat !== "All" || query) && !skelLoading && (
           <p className="mt-5 text-sm text-muted-foreground animate-fade-in">
             {filtered.length} vendor{filtered.length !== 1 ? "s" : ""} found
             {zone !== "All Zones" ? ` in ${zone}` : ""}
@@ -183,13 +273,16 @@ function Home() {
           </p>
         )}
 
-        {/* Vendor grid */}
+        {/* Vendor grid — skeletons on first session load, real cards thereafter */}
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((v, i) => <VendorCard key={v.id} v={v} index={i} />)}
+          {skelLoading
+            ? Array.from({ length: 6 }, (_, i) => <VendorSkeleton key={i} index={i} />)
+            : filtered.map((v, i) => <VendorCard key={v.id} v={v} index={i} />)
+          }
         </div>
 
         {/* Empty state */}
-        {filtered.length === 0 && (
+        {!skelLoading && filtered.length === 0 && (
           <div className="mt-8 text-center py-16 bg-card rounded-2xl border border-border animate-fade-in">
             <div className="mx-auto h-16 w-16 rounded-full bg-brand-light grid place-items-center mb-4">
               <ShoppingBag size={26} className="text-brand" />
